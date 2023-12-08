@@ -4,6 +4,14 @@ import { PrismaClient } from '@prisma/client';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import session from 'express-session';
+import bcrypt from 'bcrypt';
+
+interface User {
+  id: number;
+  username: string;
+  email: string;
+  password: string;
+}
 
 const prisma = new PrismaClient();
 
@@ -15,7 +23,7 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 app.use(
   session({
-    secret: 'your-secret-key', // Change this to a secure random string
+    secret: 'my-key', 
     resave: false,
     saveUninitialized: false,
   })
@@ -26,19 +34,24 @@ app.use(passport.session());
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {
-    const user = await prisma.user.findUnique({ where: { email: username } });
+
+    
+    const user = await prisma.user.findUnique({ where: { username: username } });
     if (!user) {
       return done(null, false, { message: 'User not found' });
     }
-    if (user.password !== password) {
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
       return done(null, false, { message: 'Incorrect password' });
     }
+
     return done(null, user);
   })
 );
 
-passport.serializeUser((user, done) => {
-  done(null, user.id);
+passport.serializeUser((user: User, done) => {
   done(null, user.id);
 });
 
@@ -53,7 +66,6 @@ passport.deserializeUser(async (id, done) => {
     done(err);
   }
 });
-
 app.get('/api', (req, res) => {
   res.send({ message: 'Welcome to api!' });
 });
@@ -79,14 +91,40 @@ app.get('/api/:id', async (req, res) => {
   }
 });
 
-app.post('/api/login', async (req, res) => {
-  const result = await prisma.user.create({
-    data: {
-      ...req.body,
-    },
-  });
-  res.json(result);
+app.post('/api/register', async (req, res) => {
+  const { username, email, password } = req.body;
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  try {
+    const newUser = await prisma.user.create({
+      data: {
+        username,
+        email,
+        password: hashedPassword
+      },
+    });
+
+    res.json(newUser);
+  } catch (error) {
+    console.error('Error creating user:', error);
+    res.status(500).json({ error: 'the user already exist' });
+  }
 });
+
+
+app.post('/api/login',passport.authenticate('local'), (req, res) => {
+  // If authentication is successful, this function is called.
+  // The authenticated user is stored in req.user.
+  if (!req.isAuthenticated()) {
+    // Authentication failed
+    return res.status(401).json({ message: 'Authentication failed' });
+  }
+
+  // Authentication successful, respond with user information
+  res.json({ message: 'Login successful', user: req.user });
+});
+
 
 app.put('/api/:id', async (req, res) => {
   const { id } = req.params;
@@ -107,11 +145,12 @@ app.delete('/api/:id', async (req, res) => {
   res.json(result);
 });
 
-app.get('/api/:id', async (req, res) => {
-  const { id } = req.params;
-  const user = await prisma.user.findUnique({ where: { id: parseInt(id) } });
-  res.json(user);
-});
+// not important for now
+// app.get('/api/:id', async (req, res) => {
+//   const { id } = req.params;
+//   const user = await prisma.user.findUnique({ where: { id: parseInt(id) } });
+//   res.json(user);
+// }); 
 
 const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {
