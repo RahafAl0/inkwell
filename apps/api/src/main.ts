@@ -5,6 +5,7 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import session from 'express-session';
 import bcrypt from 'bcrypt';
+import authRouter from './auth';
 
 interface User {
   id: number;
@@ -66,6 +67,10 @@ passport.deserializeUser(async (id, done) => {
     done(err);
   }
 });
+
+app.use('/api', authRouter)
+
+
 app.get('/api', (req, res) => {
   res.send({ message: 'Welcome to api!' });
 });
@@ -91,39 +96,8 @@ app.get('/api/:id', async (req, res) => {
   }
 });
 
-app.post('/api/register', async (req, res) => {
-  const { username, email, password } = req.body;
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  try {
-    const newUser = await prisma.user.create({
-      data: {
-        username,
-        email,
-        password: hashedPassword
-      },
-    });
-
-    res.json(newUser);
-  } catch (error) {
-    console.error('Error creating user:', error);
-    res.status(500).json({ error: 'the user already exist' });
-  }
-});
 
 
-app.post('/api/login',passport.authenticate('local'), (req, res) => {
-  // If authentication is successful, this function is called.
-  // The authenticated user is stored in req.user.
-  if (!req.isAuthenticated()) {
-    // Authentication failed
-    return res.status(401).json({ message: 'Authentication failed' });
-  }
-
-  // Authentication successful, respond with user information
-  res.json({ message: 'Login successful', user: req.user });
-});
 
 
 app.put('/api/:id', async (req, res) => {
