@@ -1,9 +1,8 @@
 import express from 'express';
- import jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
-
-
+import passport from 'passport';
 
 const prisma = new PrismaClient();
 const authRouter = express.Router();
@@ -47,7 +46,9 @@ authRouter.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Authentication failed' });
     }
 
-    const token = jwt.sign({ id: user.id }, 'my-key', { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    });
 
     res.json({ message: 'Login successful', token });
   } catch (error) {
@@ -56,4 +57,7 @@ authRouter.post('/login', async (req, res) => {
   }
 });
 
+authRouter.get('/me', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  res.send(req.user)
+});
 export default authRouter;

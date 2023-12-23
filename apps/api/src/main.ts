@@ -20,7 +20,7 @@ app.use('/assets', express.static(__dirname + '/assets'));
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: 'my-key'
+  secretOrKey: process.env.JWT_SECRET
 };
 
 passport.use(
@@ -34,7 +34,7 @@ passport.use(
         return done(null, false);
       }
 
-      return done(null, user);
+      return done(null, {id: user.id, username: user.username, email: user.email });
     } catch (error) {
       return done(error);
     }
