@@ -1,10 +1,22 @@
-/* eslint-disable */
-var __TEARDOWN_MESSAGE__: string;
+import { existsSync, unlinkSync } from 'fs';
+import { execSync } from 'child_process';
+import { PrismaClient } from '@prisma/client';
+import path from 'path';
+
 
 module.exports = async function () {
-  // Start services that that the app needs to run (e.g. database, docker-compose, etc.).
-  console.log('\nSetting up...\n');
+  const testDBPath = path.resolve(__dirname, '../../../../prisma/test.db');
 
-  // Hint: Use `globalThis` to pass variables to global teardown.
-  globalThis.__TEARDOWN_MESSAGE__ = '\nTearing down...\n';
+  if (existsSync(testDBPath)) {
+    unlinkSync(testDBPath);
+  }
+
+  const prisma = new PrismaClient();
+
+  try {
+    await prisma.$connect();
+    execSync('npx prisma migrate deploy', { stdio: 'inherit' });
+  } finally {
+    await prisma.$disconnect();
+  }
 };
