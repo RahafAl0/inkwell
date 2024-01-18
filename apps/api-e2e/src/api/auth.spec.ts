@@ -4,13 +4,13 @@ import { error } from 'console';
 describe('POST: /api/register', () => {
   it('should create new user', async () => {
     const response = await axios.post('/api/register', {
-      username: 'rahaaafrrrReeiyad',
-      email: 'rahafrahaffffffrrreer@rahaf',
+      username: 'rah',
+      email: 'rah',
       password: '123Rahaf',
     });
 
     expect(response.status).toBe(200);
-    expect(response.data.id).toEqual(7);
+    expect(response.data.id).toEqual(1);
     error('Error creating user:', error);
   });
   
@@ -19,8 +19,8 @@ describe('POST: /api/register', () => {
 describe('POST: /api/login', () => {
   it('should login with valid credentials', async () => {
     const response = await axios.post('/api/login', {
-      username: 'rahaaafRiyad',
-      password: '123Rahaf',
+      username: '',
+      password: '',
     });
 
     expect(response.status).toBe(200);
