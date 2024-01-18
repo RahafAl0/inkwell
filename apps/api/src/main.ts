@@ -3,7 +3,9 @@ import { PrismaClient } from '@prisma/client';
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import authRouter from './auth';
+import articleRouter from './articles';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface User {
   id: number;
   username: string;
@@ -45,6 +47,7 @@ passport.use(
 app.use(passport.initialize());
 
 app.use('/api', authRouter)
+app.use('/api', articleRouter);
 
 app.get('/api', passport.authenticate('jwt', { session: false }), (req, res) => {
   res.send({ message: 'Welcome to api!' });
