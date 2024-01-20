@@ -41,6 +41,24 @@ articleRouter.get('/articles', async (req, res) => {
   }
 });
 
+articleRouter.get('/articles/:id', async (req, res) => {
+  const { id } = req.params;
+  const numericId = parseInt(id);
+
+  try {
+    const article = await prisma.article.findUnique({
+      where: { id: numericId },
+      include: { author: false },
+    });
+
+    res.status(200).json(article);
+  } catch (error) {
+    console.error('Error fetching article:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
 articleRouter.put('/articles/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
   const { id } = req.params;
   const numericId = parseInt(id);
@@ -59,6 +77,22 @@ articleRouter.put('/articles/:id', passport.authenticate('jwt', { session: false
     res.status(200).json({ message: 'Article updated successfully', article: updatedArticle });
   } catch (error) {
     console.error('Error updating article:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+articleRouter.delete('/articles/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  const { id } = req.params;
+  const numericId = parseInt(id);
+
+  try {
+    await prisma.article.delete({
+      where: { id: numericId },
+    });
+
+    res.status(200).json({ message: 'Article deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting article:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });

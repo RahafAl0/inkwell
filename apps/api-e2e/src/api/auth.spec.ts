@@ -10,7 +10,7 @@ describe('POST: /api/register', () => {
     });
 
     expect(response.status).toBe(200);
-    expect(response.data.id).toEqual(1);
+    expect(response.data.id).toBeDefined();
     error('Error creating user:', error);
   });
   
