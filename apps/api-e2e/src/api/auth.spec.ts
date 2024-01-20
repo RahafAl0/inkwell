@@ -19,8 +19,8 @@ describe('POST: /api/register', () => {
 describe('POST: /api/login', () => {
   it('should login with valid credentials', async () => {
     const response = await axios.post('/api/login', {
-      username: '',
-      password: '',
+      username: 'rah',
+      password: '123Rahaf',
     });
 
     expect(response.status).toBe(200);
