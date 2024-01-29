@@ -10,6 +10,7 @@ articleRouter.post('/articles', passport.authenticate('jwt', { session: false })
   const userId = (req.user as { id: string }).id;
 
   try {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const newArticle = await prisma.article.create({
       data: {
         title,
@@ -99,4 +100,4 @@ articleRouter.delete('/articles/:id', passport.authenticate('jwt', { session: fa
 
 
 
-export default articleRouter;
+export { articleRouter }

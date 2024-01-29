@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import authRouter from './auth';
-import articleRouter from './articles';
+import { articleRouter } from '@inkwell/articles'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface User {
@@ -17,7 +17,7 @@ const prisma = new PrismaClient();
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json());   
 app.use('/assets', express.static(__dirname + '/assets'));
 
 const jwtOptions = {
