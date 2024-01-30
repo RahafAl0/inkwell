@@ -6,5 +6,5 @@
     "types": ["node", "express"]
   },
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"],
-  "include": ["src/**/*.ts", "../../libs/articles/src/lib/articles.ts"]
+  "include": ["src/**/*.ts", "../../libs/articles/src/lib/articles.ts", "../../libs/auth/auth.ts"]
 }

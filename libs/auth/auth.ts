@@ -60,4 +60,4 @@ authRouter.post('/login', async (req, res) => {
 authRouter.get('/me', passport.authenticate('jwt', { session: false }), async (req, res) => {
   res.send(req.user)
 });
-export default authRouter;
+export { authRouter };

@@ -2,7 +2,7 @@ import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
-import authRouter from './auth';
+import { authRouter } from '@inkwell/auth';
 import { articleRouter } from '@inkwell/articles'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

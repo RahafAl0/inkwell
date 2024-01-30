@@ -1,7 +1,7 @@
 import supertest from 'supertest';
 import express from 'express';
 import { PrismaClient } from '@prisma/client'; 
-import {articleRouter} from './articles';
+import { articleRouter } from './articles';
 
 const prisma = new PrismaClient();
 
