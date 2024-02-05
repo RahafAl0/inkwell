@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@inkwell/articles": ["libs/articles/src/index.ts"],
-      "@inkwell/auth": ["libs/auth/src/index.ts"]
+      "@inkwell/auth": ["libs/auth/src/index.ts"],
+      "@inkwell/comments": ["libs/comments/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
