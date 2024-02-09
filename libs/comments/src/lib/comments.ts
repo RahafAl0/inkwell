@@ -26,6 +26,17 @@ commentRouter.post('/comments', async (req, res) => {
   }
 });  
 
+commentRouter.get('/comments', async (req, res) => {
+  try {
+    const comments = await prisma.comment.findMany();
+
+    res.status(200).json(comments);
+  } catch (error) {
+    console.log('Error fetching comments');
+    res.status(500).json({ error: 'Internal Server Error' })
+  }
+})
+
 commentRouter.put('/comments/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
   const { id } = req.params;
   const { content } = req.body
