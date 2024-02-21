@@ -1,7 +1,42 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { GiQuillInk } from 'react-icons/gi';
+import { useState } from 'react'; 
+import { useRegisterUserMutation } from '../store/apis/authApi';
+
 
 function Register() {
+
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [registerUser, {isLoading, isError}] = useRegisterUserMutation()
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+    console.log(username);
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  try {
+    const response = await registerUser({ email, username, password })
+    console.log('success', response);
+  } catch (error) {
+    console.log('error', error);
+  }
+}
+
+    
+
   return (
     <section className="bg-red-400	">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -17,7 +52,7 @@ function Register() {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Sign Up
             </h1>
-            <form className="space-y-4 md:space-y-6" action="#">
+            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label
                   htmlFor="email"
@@ -32,6 +67,7 @@ function Register() {
                   placeholder="email"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-primary-600 block w-full p-2.5 bg-red-400	 placeholder-gray-300 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
+                  onChange={handleEmailChange}
                 />
                 <label
                   htmlFor="username"
@@ -46,6 +82,7 @@ function Register() {
                   placeholder="username"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-primary-600 block w-full p-2.5 bg-red-400	placeholder-gray-300 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
+                  onChange={handleUsernameChange}
                 />
                 <label
                   htmlFor="password"
@@ -60,6 +97,7 @@ function Register() {
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-primary-600 block w-full p-2.5 bg-red-400	placeholder-gray-300 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
+                  onChange={handlePasswordChange}
                 />
               </div>
               
@@ -67,8 +105,14 @@ function Register() {
                 type="submit"
                 className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-20 py-2.5 text-center  dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800  "
               >
-                Sign Up
+              
+                {isLoading ? 'Signing Up...' : 'Sign Up'}
               </button>
+              {isError && (
+                <p className="text-red-500 text-sm font-light">
+                  Registration failed. Please try again.
+                </p>
+              )}
               <p className="text-sm font-light text-gray-500 dark:text-white">
                  have an account?{' '}
                 <a
