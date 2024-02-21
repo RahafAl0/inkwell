@@ -15,9 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@inkwell/articles": ["libs/articles/src/index.ts"],
-      "@inkwell/auth": ["libs/auth/src/index.ts"],
-      "@inkwell/comments": ["libs/comments/src/index.ts"]
+      "@inkwell/articles": ["libs/controllers/articles/src/index.ts"],
+      "@inkwell/auth": ["libs/controllers/auth/src/index.ts"],
+      "@inkwell/comments": ["libs/controllers/comments/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
