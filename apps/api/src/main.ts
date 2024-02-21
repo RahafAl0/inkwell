@@ -5,6 +5,7 @@ import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import { authRouter } from '@inkwell/auth';
 import { articleRouter } from '@inkwell/articles';
 import { commentRouter } from '@inkwell/comments'; 
+import cors from 'cors';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface User {
@@ -20,6 +21,13 @@ const app = express();
 
 app.use(express.json());   
 app.use('/assets', express.static(__dirname + '/assets'));
+app.use(cors({
+  origin: 'http://localhost:4200',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
