@@ -2,6 +2,7 @@
 import { GiQuillInk } from 'react-icons/gi';
 import { useState } from 'react'; 
 import { useRegisterUserMutation } from '../store/apis/authApi';
+import { useNavigate } from 'react-router-dom'; 
 
 
 function Register() {
@@ -9,8 +10,9 @@ function Register() {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
   const [registerUser, {isLoading, isError}] = useRegisterUserMutation()
+
+  const navigate = useNavigate();
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -28,7 +30,8 @@ function Register() {
 const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
   try {
-    const response = await registerUser({ email, username, password })
+    const response = await registerUser({ email, username, password });
+    navigate('/home')
     console.log('success', response);
   } catch (error) {
     console.log('error', error);
