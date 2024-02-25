@@ -4,19 +4,26 @@ const loginSlice = createSlice({
   name: 'login',
   initialState: {
     loading: false,
-    error: null
+    error: null,
+    isAuthenticated: false,
+    user: null
   },
   reducers: {
-    loginStart: (state, action) => {
+    loginStart: (state) => {
       state.loading = true;
       state.error = null;
     },
-    loginSuccess: (state, action) => {
+    loginSuccess: (state) => {
       state.loading = false;
+      state.isAuthenticated = true;
     },
     loginFail: (state, action) => {
       state.loading = false;
       state.error = action.payload;
+    },
+    logout: (state) => {
+      state.isAuthenticated = false; 
+      state.user = null;
     },
   },
 });
@@ -43,6 +50,6 @@ const registerSlice = createSlice({
 });
 
 
-export const {loginStart, loginSuccess, loginFail} = loginSlice.actions;
+export const {loginStart, loginSuccess, loginFail, logout} = loginSlice.actions;
 export const {registerStart, registerSuccess, registerFail} = registerSlice.actions;
 export default loginSlice.reducer;
