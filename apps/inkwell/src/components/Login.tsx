@@ -29,6 +29,7 @@ function Login() {
         const response = await loginUser({ username, password });
 
         if ('data' in response && response.data?.token) {
+          localStorage.setItem('token', response.data.token);
           navigate('/home');
         }
 
