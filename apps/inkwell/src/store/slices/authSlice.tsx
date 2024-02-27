@@ -6,16 +6,18 @@ const loginSlice = createSlice({
     loading: false,
     error: null,
     isAuthenticated: false,
-    user: null
+    user: null,
+    token: null
   },
   reducers: {
     loginStart: (state) => {
       state.loading = true;
       state.error = null;
     },
-    loginSuccess: (state) => {
+    loginSuccess: (state, action) => {
       state.loading = false;
       state.isAuthenticated = true;
+      state.token = action.payload
     },
     loginFail: (state, action) => {
       state.loading = false;
