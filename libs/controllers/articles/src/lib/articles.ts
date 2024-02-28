@@ -1,11 +1,13 @@
-import express from 'express';
-import passport from 'passport';
+import express = require('express');
+import passport = require('passport');
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 const articleRouter = express.Router();
 
 articleRouter.post('/articles', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  console.log('Request headers:', req.headers);
+  console.log('Authenticated user:', req.user);
   const { title, content } = req.body;
   const userId = (req.user as { id: string }).id;
 

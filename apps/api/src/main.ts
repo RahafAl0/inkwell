@@ -57,7 +57,7 @@ app.use(passport.initialize());
 
 app.use('/api', authRouter);
 app.use('/api', articleRouter);
-app.use('/api/', commentRouter)
+app.use('/api', commentRouter)
 
 app.get('/api', passport.authenticate('jwt', { session: false }), (req, res) => {
   res.send({ message: 'Welcome to api!' });
