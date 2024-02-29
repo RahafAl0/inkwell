@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from '../components/Login';
 import Register from '../components/Register';
 import Home from '../components/Home';
+import MyProfile from '../components/MyProfile';
+import Article from '../components/Articles';
 
 export function App() {
   return (
@@ -12,6 +14,8 @@ export function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/home" element={<Home />} />
+      <Route path="/myprofile" element={<MyProfile />} />
+      <Route path="/article/new" element={<Article />} />
     </Routes>
   </Router>
       
