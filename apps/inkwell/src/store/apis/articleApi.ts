@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+
+
 const getAccessToken = () => {
   return localStorage.getItem('token');
 };
@@ -26,9 +28,12 @@ export const articleApi = createApi({
         body: newArticle,
       }),
     }),
+    getArticles: builder.query({
+      query: () => 'articles'
+    })
   }),
 });
 
 
-export const { useCreateArticleMutation } = articleApi;
+export const { useCreateArticleMutation, useGetArticlesQuery } = articleApi;
 export default articleApi;
