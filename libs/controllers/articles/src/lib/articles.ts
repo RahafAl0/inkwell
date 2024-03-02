@@ -33,14 +33,18 @@ articleRouter.get('/articles', async (req, res) => {
   try {
     const articles = await prisma.article.findMany({
       include: {
-        author: false, 
+        author: {
+          select: {
+            username: true,
+          },
+        },
       },
     });
 
     res.status(200).json(articles);
   } catch (error) {
-      console.error('Error fetching articles:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error fetching articles:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
@@ -51,7 +55,13 @@ articleRouter.get('/articles/:id', async (req, res) => {
   try {
     const article = await prisma.article.findUnique({
       where: { id: numericId },
-      include: { author: false },
+      include: {
+        author: {
+          select: {
+            username: true,
+          },
+        },
+      },
     });
 
     res.status(200).json(article);
