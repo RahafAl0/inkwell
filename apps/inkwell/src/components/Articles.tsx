@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState, useEffect } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { useCreateArticleMutation } from '../store/apis/articleApi';
 import Comments from './Comments';
 import Navbar from './Navbar';
@@ -10,6 +10,8 @@ function Article() {
   const [comments, setComments] = useState<string[]>([]);
 
   const [createArticle] = useCreateArticleMutation();
+
+  
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
