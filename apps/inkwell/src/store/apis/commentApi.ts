@@ -1,5 +1,3 @@
-// commentApi.js
-
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const getAccessToken = () => {
@@ -31,7 +29,7 @@ export const commentApi = createApi({
         body: newComment,
       }),
     }),
-    // Add other endpoints for updating and deleting comments
+    
   }),
 });
 
