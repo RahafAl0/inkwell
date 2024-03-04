@@ -1,6 +1,7 @@
 import Navbar from './Navbar';
 import { useGetArticlesQuery } from '../store/apis/articleApi';
-import { Article } from './Types';
+import { Article } from '../../../../libs/type';
+// import Comments from './Comments';
 
 function Home() {
   const { data: articles, isLoading } = useGetArticlesQuery({});

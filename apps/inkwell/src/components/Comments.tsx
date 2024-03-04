@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { useCreateCommentMutation } from '../store/apis/commentApi';
+import { Comment } from '../../../../libs/type';
 
-interface CommentsProps {
-    comments: string[];
-  }
 
-function Comments({ comments }: CommentsProps) {
+
+function Comments({ comments }: { comments: Comment[] }) {
   const [comment, setComment] = useState('');
   const [createComment, { isLoading, isError }] = useCreateCommentMutation();
 
