@@ -3,7 +3,7 @@ export interface Article {
     title: string;
     articleId: number;
     content: string;
-    userId : number;
+    authorId: number;
     author: {
       username: string;
     };
@@ -14,5 +14,8 @@ export interface Comment {
   id: number;
   content: string; 
   userId: number;
-
+  articleId: number;
+  author : {
+    username: string;
+  };
 }

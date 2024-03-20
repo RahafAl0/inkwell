@@ -7,10 +7,17 @@ function Navbar() {
 
   const navigate = useNavigate();
 
+
+
   const dispatch = useDispatch();
   const handleLogout = () => {
-    dispatch(logout());
-    navigate('/login');
+    if (localStorage.getItem('token')) {
+      dispatch(logout());
+      localStorage.removeItem('token');
+      console.log('logout');  
+      navigate('/login');
+    }
+
   };
 
   const navigateMakeArticle = () => { 

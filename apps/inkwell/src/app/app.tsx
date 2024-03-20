@@ -5,7 +5,7 @@ import Login from '../components/Login';
 import Register from '../components/Register';
 import Home from '../components/Home';
 import MyProfile from '../components/MyProfile';
-import Article from '../components/Articles';
+import CreateArticle from '../components/CreateArticle';
 
 export function App() {
   return (
@@ -15,7 +15,7 @@ export function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/home" element={<Home />} />
       <Route path="/myprofile" element={<MyProfile />} />
-      <Route path="/article/new" element={<Article />} />
+      <Route path="/article/new" element={<CreateArticle />} />
     </Routes>
   </Router>
       

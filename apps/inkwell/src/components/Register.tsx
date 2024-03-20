@@ -31,6 +31,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
   try {
     const response = await registerUser({ email, username, password });
+    localStorage.setItem('username', username);
     navigate('/home')
     console.log('success', response);
   } catch (error) {
