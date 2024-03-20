@@ -38,6 +38,7 @@ articleRouter.get('/articles', async (req, res) => {
             username: true,
           },
         },
+        comments: true,
       },
     });
 

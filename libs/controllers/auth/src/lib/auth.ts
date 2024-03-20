@@ -44,16 +44,16 @@ authRouter.post('/login', async (req, res) => {
 
     if (!passwordMatch) {
       return res.status(401).json({ message: 'Authentication failed' });
-    }``
+    }
 
     const token = jwt.sign({ id: user.id }, process.env['JWT_SECRET'] as string, {
       expiresIn: '1h',
     });
 
-    res.json({ message: 'Login successful', token });
+    return res.json({ message: 'Login successful', userId: user.id, token });
   } catch (error) {
     console.error('Error during login:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
