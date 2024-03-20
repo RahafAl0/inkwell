@@ -1,5 +1,5 @@
 import Navbar from './Navbar';
-import Article from './Articles';
+import CreateArticle from './CreateArticle';
 
 function MyProfile() {
 
@@ -8,7 +8,7 @@ function MyProfile() {
   return (
     <div>
       <Navbar />
-      <Article />
+      <CreateArticle />
     </div>
   );
 }
