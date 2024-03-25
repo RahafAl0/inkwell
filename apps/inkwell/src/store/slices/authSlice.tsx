@@ -36,15 +36,20 @@ const registerSlice = createSlice({
   name: 'register',
   initialState: {
     lodaing: false,
-    error: null
+    error: null,
+    isAuthenticated: false,
+    user: null,
+    token: null,
   },
   reducers: {
-    registerStart: (state, action) => {
+    registerStart: (state) => {
       state.lodaing = true;
       state.error = null;
     },
     registerSuccess: (state, action) => {
       state.lodaing = false;
+      state.isAuthenticated = true;
+      state.token = action.payload
     },
     registerFail: (state, action) => {
       state.lodaing = false;

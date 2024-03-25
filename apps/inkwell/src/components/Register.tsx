@@ -27,17 +27,28 @@ function Register() {
     setPassword(e.target.value);
   };
 
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
   try {
     const response = await registerUser({ email, username, password });
-    localStorage.setItem('username', username);
-    navigate('/home')
-    console.log('success', response);
+    console.log('response:', response); 
+    if ('data' in response && response.data) {
+      
+      localStorage.setItem('token', response.data?.token); 
+      localStorage.setItem('username', username);
+      localStorage.setItem('userId', response.data.userId);
+      console.log('token', response.data.token);
+      console.log('username', username);
+      navigate('/home');
+      console.log('success', response);
+    } else {
+      console.error('Invalid response:', response);
+    }
   } catch (error) {
     console.log('error', error);
   }
-}
+};
+
 
     
 
@@ -69,7 +80,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                   name="email"
                   id="email"
                   placeholder="email"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-primary-600 block w-full p-2.5 bg-red-400	 placeholder-gray-300 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className=" border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-primary-600 block w-full p-2.5 bg-red-400	 placeholder-gray-300 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
                   onChange={handleEmailChange}
                 />
@@ -84,7 +95,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                   name="username"
                   id="username"
                   placeholder="username"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-primary-600 block w-full p-2.5 bg-red-400	placeholder-gray-300 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className=" border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-primary-600 block w-full p-2.5 bg-red-400	placeholder-gray-300 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
                   onChange={handleUsernameChange}
                 />
@@ -99,7 +110,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                   name="password"
                   id="password"
                   placeholder="••••••••"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-primary-600 block w-full p-2.5 bg-red-400	placeholder-gray-300 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-primary-600 block w-full p-2.5 bg-red-400	placeholder-gray-300 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
                   onChange={handlePasswordChange}
                 />

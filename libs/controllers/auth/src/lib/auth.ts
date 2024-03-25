@@ -13,6 +13,14 @@ authRouter.post('/register', async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
+    const existingUser = await prisma.user.findUnique({
+      where: { username },
+    });
+
+    if (existingUser) {
+      return res.status(400).json({ error: 'Username already exists' });
+    }
+
     const newUser = await prisma.user.create({
       data: {
         username,
@@ -21,10 +29,14 @@ authRouter.post('/register', async (req, res) => {
       },
     });
 
-    res.json({ id: newUser.id });
+    const token = jwt.sign({ id: newUser.id }, process.env['JWT_SECRET'] as string, {
+      expiresIn: '1h',
+    });
+
+    return res.json({ userId: newUser.id, token });
   } catch (error) {
     console.error('Error creating user:', error);
-    res.status(500).json({ error: 'the user already exists' });
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

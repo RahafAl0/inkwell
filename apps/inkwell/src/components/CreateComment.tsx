@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 interface CommentFormProps {
   articleId: string;
-  onCommentSubmit: (content: string, articleId: string) => void; // Change userId type to number
+  onCommentSubmit: (content: string, articleId: string) => void; 
 }
 
 const CreateComment: React.FC<CommentFormProps> = ({ articleId, onCommentSubmit }) => {
